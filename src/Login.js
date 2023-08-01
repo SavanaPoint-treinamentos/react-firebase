@@ -1,8 +1,10 @@
 import { useState } from "react"
-import { authUser, authWitGoogle } from "./user.service";
+import { loginWithApi } from "./product.service";
 
 
-export const Form = () => {
+
+
+export const LoginForm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('')
 
@@ -13,10 +15,11 @@ export const Form = () => {
            return console.log('Credentials not valid!')
         }
 
-        const user = {email, password}
+        
       try {
-       const snapshot = await authUser(user)
-       console.log(snapshot)
+      const data = await loginWithApi(email, password)
+      localStorage.setItem('access_token', data)
+      console.log(data)
 
       } catch (error) {
         console.log(error)
@@ -42,11 +45,6 @@ export const Form = () => {
 
                             <div className="text-center">
                                 <button onClick={handlerForm} type="button" className="btn btn-primary">Login</button>
-                            </div>
-
-
-                            <div className="text-center">
-                                <button onClick={authWitGoogle} type="button" className="btn btn-primary">Login With Google</button>
                             </div>
                         </form>
                     </div>
